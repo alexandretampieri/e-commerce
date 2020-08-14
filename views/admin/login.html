@@ -58,7 +58,7 @@
       </div>
     </form>
 
-    <a href="#">I forgot my password</a><br>
+    <a href="/admin/forgot">Esqueci minha senha</a><br>
     <a href="register.html" class="text-center">Register a new membership</a>
 
   </div>
