@@ -7,7 +7,7 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="/admin/categories">Categorias</a></li>
+    <li>Categorias</li>
   </ol>
 </section>
 
@@ -27,7 +27,7 @@
                 <thead>
                   <tr>
                     <th style="width: 10px">Id</th>
-                    <th>Nome da Categoria</th>
+                    <th>Nome</th>
                     <th style="width: 140px">&nbsp;</th>
                   </tr>
                 </thead>

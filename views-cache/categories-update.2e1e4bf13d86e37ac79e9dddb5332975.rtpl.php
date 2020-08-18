@@ -5,6 +5,11 @@
   <h1>
     Lista de Categorias
   </h1>
+  <ol class="breadcrumb">
+    <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="/admin/categories">Categorias</a></li>
+    <li>Editar</li>
+  </ol>
 </section>
 
 <!-- Main content -->
