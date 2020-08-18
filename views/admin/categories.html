@@ -38,7 +38,8 @@
                     <td>{$value.descategory}</td>
                     <td>
                       <a href="/admin/categories/{$value.idcategory}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                      <a href="/admin/categories/{$value.idcategory}/delete" onclick="return confirm('Deseja realmente excluir esta categoria?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                      <a href="/admin/categories/{$value.idcategory}/delete" onclick="return confirm('Deseja realmente excluir a categoria {$value.idcategory} - {$value.descategory}?')" 
+                      class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                     </td>
                   </tr>
                   {/loop}
