@@ -27,11 +27,13 @@ $app->get("/categories/:idcategory", function($idcategory)
 
 	$category->get((int) $idcategory);
 
+    $products = $category->getProducts();
+
 	$page = new Page();
 
 	$page->setTpl("category", array(
 		"category"=>$category->getValues(),
-		"products"=>array()
+		"products"=>Product::checkList($products)
 	)); 
 
 });
