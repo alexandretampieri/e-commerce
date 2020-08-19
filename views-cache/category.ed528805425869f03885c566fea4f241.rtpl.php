@@ -14,6 +14,10 @@
     <div class="zigzag-bottom"></div>
     <div class="container">
         <div class="row">
+            <div class="product-breadcroumb">
+                <a href="/">Home</a>
+                <a><?php echo htmlspecialchars( $category["descategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+            </div>
 
             <?php $counter1=-1;  if( isset($products) && ( is_array($products) || $products instanceof Traversable ) && sizeof($products) ) foreach( $products as $key1 => $value1 ){ $counter1++; ?>
 
@@ -39,6 +43,7 @@
         
         <div class="row">
             <div class="col-md-12">
+                <input type="hidden" id="page" name="page" value=<?php echo htmlspecialchars( $page, ENT_COMPAT, 'UTF-8', FALSE ); ?>>
                 <div class="product-pagination text-center">
                     <nav>
                         <ul class="pagination">
