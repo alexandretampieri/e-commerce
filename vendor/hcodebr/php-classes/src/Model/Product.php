@@ -18,7 +18,9 @@ class Product extends Model {
 		"vlweight",
 		"desurl",
 		"desphoto",
-		"dtregister"
+		"dtregister",
+	    "nrqtd",
+	    "vltotal"
 	];
 
 	public static function listAll()
