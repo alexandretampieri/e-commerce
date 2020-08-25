@@ -56,8 +56,6 @@ $app->get("/categories/:idcategory", function($idcategory)
 		}
 	}
 
-//var_dump($pages); exit;
-
 	$page = new Page();
 
 	$page->setTpl("category", [

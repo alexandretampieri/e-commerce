@@ -73,7 +73,7 @@ class Cart extends Model {
 
 		}
 
-        $cart->updateFreight();
+        $cart->getCalculateTotal();
 
 		return $cart;
 
@@ -226,7 +226,16 @@ class Cart extends Model {
 		else 
 		{
 
-			return [];
+            $total = array(
+            	"vlprice"=>0,
+            	"vlwidth"=>0,
+            	"vlheight"=>0,
+            	"vllength"=>0,
+            	"vlweight"=>0,
+            	"nrqtd"=>0,
+            );
+
+		    return [];
 
 		}
 
@@ -287,7 +296,9 @@ class Cart extends Model {
 			}
 
 			$this->setnrdays($result->PrazoEntrega);
+
 			$this->setvlfreight(Cart::formatValueToDecimal($result->Valor));
+
 			$this->setdeszipcode($nrzipcode);
 
 			$this->save();
@@ -304,6 +315,7 @@ class Cart extends Model {
 	{
 
 		$value = str_replace('.', '', $value);
+
 		return str_replace(',', '.', $value);
 
 	}
@@ -336,10 +348,14 @@ class Cart extends Model {
 	public function updateFreight()
 	{
 
-		if ($this->getdeszipcode() === '') 
+        $zipCode = $this->getdeszipcode();
+
+		if ($zipCode === "" || $zipCode === NULL) 
 		{
 
-			$this->setFreight(0);
+			$this->setvlfreight(0);
+
+			$this->setnrdays(0);
 
 		}
 
@@ -371,6 +387,12 @@ class Cart extends Model {
 		$this->setvlsubtotal($totals['vlprice']);
 
 		$this->setvltotal($totals['vlprice'] + (float) $this->getvlfreight());
+
+		if ($this->getvlsubtotal() === NULL) $this->setvlsubtotal(0);
+
+		if ($this->getvltotal() === NULL) $this->setvltotal(0);
+
+		if ($this->getdeszipcode() === NULL) $this->setdeszipcode("");
 
 	}
 
