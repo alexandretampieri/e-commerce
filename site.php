@@ -111,8 +111,7 @@ $app->get("/cart/:idproduct/add", function($idproduct){
 
 	$qtd = (isset($_GET['qtd'])) ? (int) $_GET['qtd'] : 1;
 
-	for ($i = 0; $i < $qtd; $i++) 
-	{
+	for ($i = 0; $i < $qtd; $i++) {
 		
 		$cart->addProduct($product);
 
@@ -128,7 +127,7 @@ $app->get("/cart/:idproduct/minus", function($idproduct){
 
 	$product = new Product();
 
-	$product->get((int)$idproduct);
+	$product->get((int) $idproduct);
 
 	$cart = Cart::getFromSession();
 
@@ -144,7 +143,7 @@ $app->get("/cart/:idproduct/remove", function($idproduct){
 
 	$product = new Product();
 
-	$product->get((int)$idproduct);
+	$product->get((int) $idproduct);
 
 	$cart = Cart::getFromSession();
 

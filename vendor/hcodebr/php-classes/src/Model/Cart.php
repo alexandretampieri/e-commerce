@@ -9,7 +9,6 @@ use \Hcode\Model\User;
 use \Hcode\Model\Product;
 
 class Cart extends Model {
-
 	protected $fields = [
 		"idcart",
 		"dessessionid",
@@ -18,7 +17,14 @@ class Cart extends Model {
 		"vlfreight",
 		"nrdays",
 	    "dtregister",
-	    "idaddress"
+	    "idaddress",
+
+		"idcartproduct",
+		"idproduct",
+		"dtremoved",
+
+	    "vltotal",
+	    "vlsubtotal"
 	];
 
 	const SESSION = "Cart";
@@ -48,11 +54,13 @@ class Cart extends Model {
 					'dessessionid'=>session_id()
 				];
 
-				if (User::checkLogin(false)) {
+				if (User::checkLogin(false)) 
+				{
 
 					$user = User::getFromSession();
  					
 					$data['iduser'] = $user->getiduser();	
+
 				}
 
 				$cart->setData($data);
@@ -64,6 +72,8 @@ class Cart extends Model {
 			}
 
 		}
+
+        $cart->updateFreight();
 
 		return $cart;
 
@@ -188,7 +198,6 @@ class Cart extends Model {
 				':idcart'=>$this->getidcart()
 		]);
 
-//var_dump($rows); exit;
 		return Product::checkList($rows);
 
 	}
@@ -237,11 +246,11 @@ class Cart extends Model {
 
 			if ($totals['vllength'] < 16) $totals['vllength'] = 16;
 
-			$qs = http_build_query([
+            $parmCorreio = [
 				'nCdEmpresa'=>'',
 				'sDsSenha'=>'',
-				'nCdServico'=>'40010',
-				'sCepOrigem'=>'09853120',
+				'nCdServico'=>'04014',
+				'sCepOrigem'=>'09750730',
 				'sCepDestino'=>$nrzipcode,
 				'nVlPeso'=>$totals['vlweight'],
 				'nCdFormato'=>'1',
@@ -251,18 +260,27 @@ class Cart extends Model {
 				'nVlDiametro'=>'0',
 				'sCdMaoPropria'=>'S',
 				'nVlValorDeclarado'=>$totals['vlprice'],
-				'sCdAvisoRecebimento'=>'S'
-			]);
+				'sCdAvisoRecebimento'=>'S',
+				'StrRetorno'=>'xml',
+				'nIndicaCalculo'=>'3'
+			];
 
-			$xml = simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?" . $qs);
+			$qs = http_build_query($parmCorreio);
 
-			$result = $xml->Servicos->cServico;
+            $url = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?" . $qs;
+
+     	    $xml = simplexml_load_file($url);
+
+			$result = $xml->cServico;
 
 			if ($result->MsgErro != '') {
 
 				Cart::setMsgError($result->MsgErro);
 
-			} else {
+			} 
+
+			else 
+			{
 
 				Cart::clearMsgError();
 
@@ -278,13 +296,11 @@ class Cart extends Model {
 
 		} else {
 
-
-
 		}
 
 	}
 
-	public static function formatValueToDecimal($value):float
+	public static function formatValueToDecimal($value) : float
 	{
 
 		$value = str_replace('.', '', $value);
@@ -320,7 +336,15 @@ class Cart extends Model {
 	public function updateFreight()
 	{
 
-		if ($this->getdeszipcode() != '') {
+		if ($this->getdeszipcode() === '') 
+		{
+
+			$this->setFreight(0);
+
+		}
+
+		else
+		{
 
 			$this->setFreight($this->getdeszipcode());
 
@@ -345,10 +369,11 @@ class Cart extends Model {
 		$totals = $this->getProductsTotals();
 
 		$this->setvlsubtotal($totals['vlprice']);
-		$this->setvltotal($totals['vlprice'] + (float)$this->getvlfreight());
+
+		$this->setvltotal($totals['vlprice'] + (float) $this->getvlfreight());
 
 	}
 
 }
 
- ?>
+?>

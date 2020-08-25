@@ -243,4 +243,4 @@ class Product extends Model {
 
 }
 
- ?>
+?>
