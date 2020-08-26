@@ -164,4 +164,94 @@ $app->post("/cart/freight", function(){
 
 });
 
+
+$app->get("/checkout", function(){
+
+	User::verifyLogin(false);
+
+	$address = new Address();
+
+	$cart = Cart::getFromSession();
+
+	if (!isset($_GET['zipcode'])) {
+
+		$_GET['zipcode'] = $cart->getdeszipcode();
+
+	}
+
+	if (isset($_GET['zipcode'])) {
+
+		$address->loadFromCEP($_GET['zipcode']);
+
+		$cart->setdeszipcode($_GET['zipcode']);
+
+		$cart->save();
+
+		$cart->getCalculateTotal();
+
+	}
+
+	if (!$address->getdesaddress()) $address->setdesaddress('');
+	if (!$address->getdesnumber()) $address->setdesnumber('');
+	if (!$address->getdescomplement()) $address->setdescomplement('');
+	if (!$address->getdesdistrict()) $address->setdesdistrict('');
+	if (!$address->getdescity()) $address->setdescity('');
+	if (!$address->getdesstate()) $address->setdesstate('');
+	if (!$address->getdescountry()) $address->setdescountry('');
+	if (!$address->getdeszipcode()) $address->setdeszipcode('');
+
+	$page = new Page();
+
+	$page->setTpl("checkout", [
+		'cart'=>$cart->getValues(),
+		'address'=>$address->getValues(),
+		'products'=>$cart->getProducts(),
+		'error'=>Address::getMsgError()
+	]);
+
+});
+
+
+$app->get("/login", function(){
+
+	$page = new Page();
+
+	$page->setTpl("login", [
+		'error'=>User::getError(),
+		'errorRegister'=>User::getErrorRegister(),
+		'registerValues'=>(isset($_SESSION['registerValues'])) ? $_SESSION['registerValues'] : ['name'=>'', 'email'=>'', 'phone'=>'']
+	]);
+
+});
+
+$app->post("/login", function(){
+
+	try 
+	{
+
+		User::login($_POST['login'], $_POST['password']);
+
+	} 
+
+	catch(Exception $e) 
+	{
+
+		User::setError($e->getMessage());
+
+	}
+
+	header("Location: /checkout");
+	exit;
+
+});
+
+$app->get("/logout", function(){
+
+	User::logout();
+
+	header("Location: /login");
+	exit;
+
+});
+
 ?>
