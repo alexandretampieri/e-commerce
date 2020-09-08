@@ -46,7 +46,11 @@
                     <nav>
                         <ul class="pagination">
                         {loop="$pages"}
+                        {if="$page === $value.page"}
+                        <li><a style="color:#000000;">{$value.page}</a></li>
+                        {else}
                         <li><a href="{$value.link}">{$value.page}</a></li>
+                        {/if}
                         {/loop}
                         </ul>
                     </nav>                        

@@ -7,20 +7,19 @@ use \Hcode\Model;
 
 class Address extends Model {
 
-	protected $fields = [
-		idaddress, 
-		idperson, 
-		desaddress, 
-		desnumber, 
-		descomplement, 
-		descity, 
-		desstate, 
-		descountry, 
-		deszipcode, 
-		desdistrict
-	];
-
 	const SESSION_ERROR = "AddressError";
+
+	protected $fields = [
+		"desaddress", 
+		"descity", 
+		"descomplement", 
+		"descountry", 
+		"desstate", 
+		"dtregister", 
+		"idaddress", 
+		"idperson", 
+		"nrzipcode"
+	];
 
 	public static function getCEP($nrcep)
 	{
@@ -47,8 +46,7 @@ class Address extends Model {
 
 		$data = Address::getCEP($nrcep);
 
-		if (isset($data['logradouro']) && $data['logradouro']) 
-		{
+		if (isset($data['logradouro']) && $data['logradouro']) {
 
 			$this->setdesaddress($data['logradouro']);
 			$this->setdescomplement($data['complemento']);
@@ -80,11 +78,8 @@ class Address extends Model {
 			':desdistrict'=>$this->getdesdistrict()
 		]);
 
-		if (count($results) > 0) 
-		{
-
+		if (count($results) > 0) {
 			$this->setData($results[0]);
-
 		}
 
 	}

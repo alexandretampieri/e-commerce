@@ -5,6 +5,7 @@ use \Hcode\Model\Product;
 use \Hcode\Model\Category;
 use \Hcode\Model\User;
 use \Hcode\Model\Cart;
+use \Hcode\Model\Address;
 
 
 $app->get("/", function() 
@@ -34,26 +35,14 @@ $app->get("/categories/:idcategory", function($idcategory)
 
 	$pages = [];
 
-	for ($i = 1; $i <= $pagination['pages']; $i++) { 
+	for ($i=1; $i <= $pagination['pages']; $i++) 
+	{ 
 
-		if ($i === $nrPage) 
-		{
-
-			array_push($pages, [
-				'link'=>'#',
-				'page'=>$i
+		array_push($pages, [
+			'link'=>'/categories/' . $category->getidcategory() . '?page=' . $i,
+			'page'=>$i
 		]);
 
-		}
-
-		else {
-
-			array_push($pages, [
-				'link'=>'/categories/' . $category->getidcategory() . '?page=' . $i,
-				'page'=>$i
-		]);
-
-		}
 	}
 
 	$page = new Page();

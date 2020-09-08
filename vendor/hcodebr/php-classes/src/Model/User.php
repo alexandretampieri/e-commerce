@@ -57,6 +57,8 @@ class User extends Model {
 	public static function checkLogin($inadmin = true)
 	{
 
+//var_dump($_SESSION); exit;
+
 		if (
 			! isset($_SESSION[User::SESSION])
 			||
@@ -103,6 +105,7 @@ class User extends Model {
 
 		}
 
+
 		$data = $results[0];
 
 		if (password_verify($password, $data["despassword"])) 
@@ -132,21 +135,19 @@ class User extends Model {
 	public static function verifyLogin($inadmin = true)
 	{
 
-		if (User::checkLogin($inadmin))
-		{
+		if (! User::checkLogin($inadmin))
+			if ($inadmin) 
+			{
 
-			header("Location: /admin/login");
+				header("Location: /admin/login");
 
-		}
+			} 
+			else 
+			{
 
-		else 
-		{
+				header("Location: /login");
 
-			header("Location: /login");
-
-		}
-
-		exit;
+			}
 
 	}
 
