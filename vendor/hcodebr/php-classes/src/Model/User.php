@@ -173,7 +173,7 @@ class User extends Model {
 		$sql = new Sql();
 
 		$bind = array(
-	    	":desperson"=>utf8_decode($this->getdesperson()), 
+	    	":desperson"=>utf8_encode($this->getdesperson()), 
 	    	":deslogin"=>$this->getdeslogin(), 
 	    	":despassword"=>User::getPasswordHash($this->getdespassword()), 
 	    	":desemail"=>$this->getdesemail(), 
@@ -181,7 +181,12 @@ class User extends Model {
 	    	":inadmin"=>$this->getinadmin()
 	    );
 
+
+//var_dump($bind); exit;
+
 	    $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", $bind);
+
+//var_dump($results); exit;
 
 	    $this->setData($results[0]);
 
@@ -194,7 +199,7 @@ class User extends Model {
 
 		$bind = array(
 			":iduser"=>$this->getiduser(), 
-	    	":desperson"=>utf8_decode($this->getdesperson()), 
+	    	":desperson"=>utf8_encode($this->getdesperson()), 
 	    	":deslogin"=>$this->getdeslogin(), 
 	    	":despassword"=>User::getPasswordHash($this->getdespassword()), 
 	    	":desemail"=>$this->getdesemail(), 
