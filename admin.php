@@ -69,7 +69,7 @@ $app->get("/admin/forgot", function()
 $app->post("/admin/forgot", function() 
 {
 
-	$data = User::getForgot($_POST["email"]);
+	$data = User::getForgot($_POST["email"], true);
 
 	header("Location: /admin/forgot/sent");
 	exit;
