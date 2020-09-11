@@ -18,7 +18,7 @@ class Address extends Model {
 		"dtregister", 
 		"idaddress", 
 		"idperson", 
-		"nrzipcode"
+		"deszipcode"
 	];
 
 	public static function getCEP($nrcep)

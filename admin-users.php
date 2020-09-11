@@ -7,9 +7,9 @@ use \Hcode\Model\User;
 $app->get("/admin/users", function() 
 {
 
-    User::verifyLogin();
+  User::verifyLogin();
 
-    $users = User::listAll();
+  $users = User::listAll();
 
 	$page = new PageAdmin();
 
@@ -23,7 +23,7 @@ $app->get("/admin/users", function()
 $app->get("/admin/users/create", function() 
 {
 
-    User::verifyLogin();
+  User::verifyLogin();
 
 	$page = new PageAdmin();
 
@@ -35,16 +35,16 @@ $app->get("/admin/users/create", function()
 $app->get("/admin/users/:iduser/delete", function($iduser) 
 {
 
-    User::verifyLogin();
+  User::verifyLogin();
 
-  	$user = new User();
+  $user = new User();
 
-  	$user->get((int) $iduser);
+  $user->get((int) $iduser);
 
-  	$user->delete();
+  $user->delete();
 
-  	header("Location: /admin/users");
-  	exit;
+  header("Location: /admin/users");
+  exit;
 
 });
 
@@ -52,15 +52,15 @@ $app->get("/admin/users/:iduser/delete", function($iduser)
 $app->get("/admin/users/:iduser", function($iduser) 
 {
 
-    User::verifyLogin();
+  User::verifyLogin();
 
-  	$user = new User();
+  $user = new User();
 
-  	$user->get((int) $iduser);
+  $user->get((int) $iduser);
  
 	$page = new PageAdmin();
 
-    $vetUser = array (
+  $vetUser = array (
 		"user"=>$user->getValues()
 	);
 
@@ -76,20 +76,25 @@ $app->post("/admin/users/create", function()
 
 	User::verifyLogin();
 
-  	$_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
+  $_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
+
+  $_POST['despassword'] = $_POST["despassword"];
+
+/*
 
  	$_POST['despassword'] = password_hash($_POST["despassword"], PASSWORD_DEFAULT, [
  		"cost"=>12
  	]);
+*/
 
-  	$user = new User();
+  $user = new User();
 
-  	$user->setData($_POST);
+  $user->setData($_POST);
 
-  	$user->save();
+  $user->save();
 
-  	header("Location: /admin/users");
-  	exit;
+  header("Location: /admin/users");
+  exit;
 
 });
 
@@ -97,20 +102,20 @@ $app->post("/admin/users/create", function()
 $app->post("/admin/users/:iduser", function($iduser) 
 {
 
-    User::verifyLogin();
+  User::verifyLogin();
 
-  	$_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
+  $_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
 
-  	$user = new User();
+  $user = new User();
 
-  	$user->get((int) $iduser);
+  $user->get((int) $iduser);
 
-  	$user->setData($_POST);
+  $user->setData($_POST);
 
-  	$user->update();
+  $user->update();
 
-  	header("Location: /admin/users");
-  	exit;
+  header("Location: /admin/users");
+  exit;
 
 });
 

@@ -101,12 +101,14 @@ class User extends Model {
 		if (count($results) === 0) 
 		{
 
-			throw new \Exception("Usuário inexistente ou senha inválida.");
+			throw new \Exception("Usuário inexistente ou senha inválida (1).");
 
 		}
 
 
 		$data = $results[0];
+
+//echo User::getPasswordHash($password) . "<br>" . $data["despassword"]; exit;
 
 		if (password_verify($password, $data["despassword"])) 
 		{
@@ -126,7 +128,7 @@ class User extends Model {
 		else 
 		{
 
-			throw new \Exception("Usuário inexistente ou senha inválida.");
+			throw new \Exception("Usuário inexistente ou senha inválida (2).");
 
 		}
 
@@ -180,7 +182,6 @@ class User extends Model {
 	    	":nrphone"=>$this->getnrphone(), 
 	    	":inadmin"=>$this->getinadmin()
 	    );
-
 
 //var_dump($bind); exit;
 
